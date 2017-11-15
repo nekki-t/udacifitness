@@ -11,6 +11,8 @@ import { purple, white } from './utils/colors';
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
 import { Constants } from 'expo';
 import EntryDetail from './components/EntryDetail';
+import Live from './components/Live';
+import { setLocalNotification } from './utils/helpers';
 
 function UdaciStatusBar({backgroundColor, ...props}) {
   return (
@@ -33,6 +35,13 @@ const Tabs = TabNavigator({
     navigationOptions: {
       tabBarLabel: 'Add Entry',
       tabBarIcon: ({tintColor}) => <FontAwesome name='plus-square' size={30} color={tintColor}/>
+    }
+  },
+  Live: {
+    screen: Live,
+    navigationOptions: {
+      tabBarLabel: 'Live',
+      tabBarIcon: ({tintColor}) => <Ionicons name='ios-speedometer' size={30} color={tintColor}/>
     }
   }
 }, {
@@ -75,13 +84,15 @@ store = createStore(
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
 export default class App extends React.Component {
-
+  componentDidMount() {
+    setLocalNotification();
+  }
   render() {
     return (
       <Provider store={store}>
         <View style={{flex: 1}}>
           <UdaciStatusBar backgroundColor={purple} barStyle='light-content'/>
-          <MainNavigator />
+          <MainNavigator/>
         </View>
       </Provider>
     );

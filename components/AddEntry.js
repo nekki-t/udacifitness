@@ -5,7 +5,13 @@ import { connect } from 'react-redux';
 import { addEntry } from '../actions';
 
 import { Text, TouchableOpacity, View, Platform, StyleSheet } from 'react-native';
-import { getMetricMetaInfo, timeToString, getDailyReminderValue } from '../utils/helpers';
+import {
+  getMetricMetaInfo,
+  timeToString,
+  getDailyReminderValue,
+  clearLocalNotification,
+  setLocalNotification,
+} from '../utils/helpers';
 
 import UdaciSlider from './UdaciSlider';
 import UdaciSteppers from './UdaciSteppers';
@@ -34,7 +40,7 @@ function SubmitBtn({onPress}) {
 
 
 class AddEntry extends Component {
-  state = {
+    state = {
     run: 0,
     bike: 0,
     swim: 0,
@@ -91,7 +97,8 @@ class AddEntry extends Component {
 
     submitEntry({key, entry});
 
-    // Clean local notification
+    clearLocalNotification()
+      .then(setLocalNotification());
   };
 
   reset = () => {
